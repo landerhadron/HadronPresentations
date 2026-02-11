@@ -13,6 +13,8 @@
 *.blg
 *.lof
 *.lot
+*.bak
+*.bakbak
 
 # Editor temporary files
 *.swp

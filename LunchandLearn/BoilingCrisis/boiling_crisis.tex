@@ -146,7 +146,7 @@
 \setcounter{framenumber}{0}
 
 % ==========================================
-% SLIDE 2
+% SLIDE 2: EXECUTIVE SUMMARY
 % ==========================================
 \begin{frame}[t]{Executive Summary}
     \vspace{0.5em}
@@ -180,7 +180,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 3
+% SLIDE 3: PHENOMENOLOGY
 % ==========================================
 \begin{frame}[t]{Phenomenology: The Boiling Transition}
     \begin{columns}[T,onlytextwidth]
@@ -214,7 +214,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 4
+% SLIDE 4: CHF VS BOILING CRISIS
 % ==========================================
 \begin{frame}[t]{CHF vs. Boiling Crisis}
     \begin{columns}[T,onlytextwidth]
@@ -243,7 +243,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 5
+% SLIDE 5: REGIME MAP
 % ==========================================
 \begin{frame}[t]{Regime Map: Operational Parameters}
     \begin{columns}[T,onlytextwidth]
@@ -278,7 +278,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 6
+% SLIDE 6: PWR DEEP DIVE
 % ==========================================
 \begin{frame}[t]{PWR Deep Dive: DNB (Low-Quality)}
     \begin{columns}[T,onlytextwidth]
@@ -304,7 +304,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 7
+% SLIDE 7: BWR DEEP DIVE
 % ==========================================
 \begin{frame}[t]{BWR Deep Dive: Dryout (High-Quality)}
     \begin{columns}[T,onlytextwidth]
@@ -330,7 +330,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 8
+% SLIDE 8: THE CLIFF
 % ==========================================
 \begin{frame}[t]{The Heat Transfer Cliff}
     \begin{columns}[T,onlytextwidth]
@@ -364,7 +364,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 9
+% SLIDE 9: SAFETY LIMITS
 % ==========================================
 \begin{frame}[t]{Safety Limits: DNBR vs. CPR}
     \begin{columns}[T,onlytextwidth]
@@ -393,7 +393,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 10: SCALING CONSIDERATIONS (Renumbered)
+% SLIDE 10: SCALING CONSIDERATIONS
 % ==========================================
 \begin{frame}[t]{Scaling Considerations: From Core to Pin}
     \begin{columns}[T,onlytextwidth]
@@ -422,45 +422,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 11: Bundle Nodalization (NOW SECOND)
-% ==========================================
-\begin{frame}[t]{Bundle Nodalization: Subchannels \& Gaps}
-    \begin{columns}[T,onlytextwidth]
-        \column{0.50\textwidth}
-        \textbf{Definitions:}
-        \begin{itemize}
-            \item \textbf{Subchannel ($i$):} The flow area between rods (Control Volume). 
-            \item \textbf{Gap ($k$):} Lateral connection between subchannels where crossflow ($w_{ij}$) occurs.
-            \item \textbf{Rod:} Heat source ($q''$).
-        \end{itemize}
-        \vspace{0.5em}
-        {\small \textit{Subchannel codes discretize the entire core into thousands of these parallel channels to find local limits.}}
-
-        \column{0.45\textwidth}
-        \centering
-        \begin{tikzpicture}[scale=0.75]
-            \def\P{3.5}
-            \def\R{1.1}
-            \fill[HadronBlue!10] (0,0) rectangle (\P,\P);
-            \foreach \pos in {(0,0), (\P,0), (0,\P), (\P,\P)} {
-                \filldraw[fill=HadronDark!20, draw=HadronDark, thick] \pos circle (\R);
-            }
-            \node[font=\bfseries\tiny, color=HadronDark, fill=white, inner sep=1pt] at (0,0) {Fuel};
-            \node[font=\bfseries\tiny, color=HadronDark, fill=white, inner sep=1pt] at (\P,\P) {Fuel};
-            \draw[dashed, StatusRed, thick] (\R, 0) -- (\P-\R, 0) node[midway, below=2pt, font=\tiny, fill=white, inner sep=1pt] {Gap $k$};
-            \draw[dashed, StatusRed, thick] (\R, \P) -- (\P-\R, \P);
-            \draw[dashed, StatusRed, thick] (0, \R) -- (0, \P-\R);
-            \draw[dashed, StatusRed, thick] (\P, \R) -- (\P, \P-\R) node[midway, right=2pt, font=\tiny, fill=white, inner sep=1pt] {Gap $l$};
-            \draw[{Stealth}-{Stealth}, thick, StatusOrange] (\P/2, -0.6) -- (\P/2, 0.6);
-            \node[font=\tiny, color=StatusOrange, align=center, fill=white, inner sep=1pt] at (\P/2, -0.8) {Mixing\\$w'_{ij}$};
-            \node[circle, fill=white, draw=HadronBlue, inner sep=2pt] (c) at (\P/2, \P/2) {\small $i$};
-            \node[align=center, font=\tiny, below=0.1cm of c, fill=white, inner sep=1pt] {Flow Area\\$A_i$};
-        \end{tikzpicture}
-    \end{columns}
-\end{frame}
-
-% ==========================================
-% SLIDE 12: Method
+% SLIDE 11: SUBCHANNEL ANALYSIS METHOD
 % ==========================================
 \begin{frame}[t]{Subchannel Analysis: The Method}
     \begin{columns}[T,onlytextwidth]
@@ -490,7 +452,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 13: Discretization Comparison
+% SLIDE 12: DISCRETIZATION
 % ==========================================
 \begin{frame}[t]{Discretization: Subchannel vs. System Level}
     \vspace{-0.5em}
@@ -536,120 +498,45 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 14: 3-Field Approach
+% SLIDE 13: BUNDLE NODALIZATION
 % ==========================================
-\begin{frame}[t]{Advanced Modeling: The 3-Field Approach}
+\begin{frame}[t]{Bundle Nodalization: Subchannels \& Gaps}
     \begin{columns}[T,onlytextwidth]
-        \column{0.58\textwidth}
-        \textbf{Beyond Homogeneous Equilibrium:}
-        Standard models assume liquid and vapor move together. For BWR dryout, we need more physics.
-        
-        \vspace{1em}
-        \textbf{The 3 Fields:}
-        \begin{enumerate}
-            \item \textbf{Continuous Liquid:} The film on the wall.
-            \item \textbf{Entrained Liquid:} Droplets in the core.
-            \item \textbf{Vapor:} The gaseous core.
-        \end{enumerate}
+        \column{0.50\textwidth}
+        \textbf{Definitions:}
+        \begin{itemize}
+            \item \textbf{Subchannel ($i$):} The flow area between rods (Control Volume). 
+            \item \textbf{Gap ($k$):} Lateral connection between subchannels where crossflow ($w_{ij}$) occurs.
+            \item \textbf{Rod:} Heat source ($q''$).
+        \end{itemize}
+        \vspace{0.5em}
+        {\small \textit{Subchannel codes discretize the entire core into thousands of these parallel channels to find local limits.}}
 
-        \column{0.38\textwidth}
+        \column{0.45\textwidth}
         \centering
         \begin{tikzpicture}[scale=0.75]
-            \draw[thick] (0,0) -- (0,4);
-            \draw[thick] (3,0) -- (3,4);
-            \fill[HadronBlue!30] (0,0) rectangle (0.3,4);
-            \fill[HadronBlue!30] (2.7,0) rectangle (3,4);
-            \node at (1.5, 2) {\small Vapor Core};
-            \foreach \x in {1,1.5,2} \fill[HadronBlue] (\x, \x+0.5) circle (0.08);
-            \foreach \x in {1.2,1.8} \fill[HadronBlue] (\x, \x+1.5) circle (0.08);
-            \node[font=\tiny, align=center, fill=white] at (0.15, 0.5) {Film};
-            \node[font=\tiny, align=center, fill=white] at (1.5, 3.5) {Droplets};
+            \def\P{3.5}
+            \def\R{1.1}
+            \fill[HadronBlue!10] (0,0) rectangle (\P,\P);
+            \foreach \pos in {(0,0), (\P,0), (0,\P), (\P,\P)} {
+                \filldraw[fill=HadronDark!20, draw=HadronDark, thick] \pos circle (\R);
+            }
+            \node[font=\bfseries\tiny, color=HadronDark, fill=white, inner sep=1pt] at (0,0) {Fuel};
+            \node[font=\bfseries\tiny, color=HadronDark, fill=white, inner sep=1pt] at (\P,\P) {Fuel};
+            \draw[dashed, StatusRed, thick] (\R, 0) -- (\P-\R, 0) node[midway, below=2pt, font=\tiny, fill=white, inner sep=1pt] {Gap $k$};
+            \draw[dashed, StatusRed, thick] (\R, \P) -- (\P-\R, \P);
+            \draw[dashed, StatusRed, thick] (0, \R) -- (0, \P-\R);
+            \draw[dashed, StatusRed, thick] (\P, \R) -- (\P, \P-\R) node[midway, right=2pt, font=\tiny, fill=white, inner sep=1pt] {Gap $l$};
+            \draw[{Stealth}-{Stealth}, thick, StatusOrange] (\P/2, -0.6) -- (\P/2, 0.6);
+            \node[font=\tiny, color=StatusOrange, align=center, fill=white, inner sep=1pt] at (\P/2, -0.8) {Mixing\\$w'_{ij}$};
+            \node[circle, fill=white, draw=HadronBlue, inner sep=2pt] (c) at (\P/2, \P/2) {\small $i$};
+            \node[align=center, font=\tiny, below=0.1cm of c, fill=white, inner sep=1pt] {Flow Area\\$A_i$};
         \end{tikzpicture}
     \end{columns}
 \end{frame}
 
 % ==========================================
-% SLIDE 15: MASS CONSERVATION (Resized for Badge Visibility)
-% ==========================================
-\begin{frame}[t]{3-Field Equations: Mass Conservation}
-    \small % Reduced text size
-    \textbf{Three separate mass balances per node:}
-    
-    \begin{block}{1. Vapor Mass}
-        \[ \frac{\partial (\alpha_v \rho_v)}{\partial t} + \nabla \cdot (\alpha_v \rho_v \vec{v}_v) = \Gamma_{vap} \]
-        {\tiny Vapor generation from evaporation.}
-    \end{block}
-    
-    \begin{block}{2. Liquid Film Mass}
-        \[ \frac{\partial (\alpha_f \rho_f)}{\partial t} + \nabla \cdot (\alpha_f \rho_f \vec{v}_f) = \textcolor{StatusGreen}{D} - \textcolor{StatusRed}{E} - \Gamma_{film} \]
-        {\tiny $\mathbf{D}$: Deposition of drops to film. $\mathbf{E}$: Entrainment of film to drops.}
-    \end{block}
-    
-    \begin{block}{3. Entrained Droplet Mass}
-        \[ \frac{\partial (\alpha_d \rho_d)}{\partial t} + \nabla \cdot (\alpha_d \rho_d \vec{v}_d) = \textcolor{StatusRed}{E} - \textcolor{StatusGreen}{D} - \Gamma_{drops} \]
-    \end{block}
-    
-    \vspace{0.2em}
-    \centering
-    \statusbadge{StatusYellow}{Dryout happens when Film Mass $\to$ 0.}
-\end{frame}
-
-% ==========================================
-% SLIDE 16: Momentum Balance
-% ==========================================
-\begin{frame}[t]{3-Field Equations: Momentum Balance}
-    \begin{columns}[T,onlytextwidth]
-        \column{0.6\textwidth}
-        \textbf{Momentum Complexity:}
-        We solve momentum for each field, allowing different velocities ($v_v \neq v_d \neq v_f$).
-        
-        \vspace{1em}
-        \begin{block}{Interfacial Drag}
-            The fields interact through drag forces:
-            \[ F_{i} = C_D \frac{1}{2} \rho (v_{rel}) |v_{rel}| A_{int} \]
-            \begin{itemize}
-                \item Vapor drags droplets up.
-                \item Vapor shears the film surface.
-            \end{itemize}
-        \end{block}
-
-        \column{0.35\textwidth}
-        \textbf{Operational Impact}
-        \vspace{0.5em}
-        
-        If vapor velocity is very high, it shears the film surface, increasing \textbf{Entrainment (E)}.
-        \vspace{1em}
-        
-        High Entrainment $\to$ Thinner Film $\to$ Earlier Dryout.
-    \end{columns}
-\end{frame}
-
-% ==========================================
-% SLIDE 17: Energy Balance
-% ==========================================
-\begin{frame}[t]{3-Field Equations: Energy Balance}
-    \textbf{Where does the heat go?}
-    
-    \begin{block}{Film Energy Equation}
-        Heat from the rod enters the liquid film.
-        \begin{itemize}
-            \item If $T_{film} < T_{sat}$: Sensible heating.
-            \item If $T_{film} = T_{sat}$: Evaporation ($\Gamma_{film}$).
-        \end{itemize}
-    \end{block}
-    
-    \begin{block}{Vapor/Droplet Energy}
-        Typically, droplets are assumed to be at $T_{sat}$. 
-        Vapor can become \textbf{superheated} even if droplets exist (non-equilibrium), but in standard dryout analysis, we focus on the film depletion limit.
-    \end{block}
-    
-    \vspace{1em}
-    \centering
-    \statusbadge{StatusDark}{Critical Logic: Dryout = Integrated Film Depletion}
-\end{frame}
-
-% ==========================================
-% SLIDE 18: Governing Equations (Mixture)
+% SLIDE 14: GOVERNING EQUATIONS (MIXTURE)
 % ==========================================
 \begin{frame}[t]{Subchannel Governing Equations (Mixture Model)}
     \begin{columns}[T,onlytextwidth]
@@ -684,38 +571,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 19: Closure Models
-% ==========================================
-\begin{frame}[t]{Closure Models: The Entrainment/Deposition War}
-    The accuracy of a 3-field code (like COBRA-TF) depends entirely on these empirical models:
-    
-    \vspace{1em}
-    \begin{columns}[T,onlytextwidth]
-        \column{0.48\textwidth}
-        \begin{block}{Entrainment (E)}
-            \begin{itemize}
-                \item \textbf{Driver:} Vapor shear vs. Surface tension.
-                \item \textbf{Effect:} Rips liquid off the wall.
-                \item \textbf{Bad for margins.}
-            \end{itemize}
-        \end{block}
-
-        \column{0.48\textwidth}
-        \begin{block}{Deposition (D)}
-            \begin{itemize}
-                \item \textbf{Driver:} Turbulent diffusion of drops.
-                \item \textbf{Effect:} Returns liquid to the wall.
-                \item \textbf{Good for margins.}
-            \end{itemize}
-        \end{block}
-    \end{columns}
-    
-    \vspace{1em}
-    \textbf{Spacer Grids:} Modern spacers are designed to maximize \textbf{D} (Deposition) to replenish the film.
-\end{frame}
-
-% ==========================================
-% SLIDE 20: Mixing (With Explanation)
+% SLIDE 15: MIXING & CROSSFLOW
 % ==========================================
 \begin{frame}[t]{Mixing \& Crossflow: The Secret Sauce}
     \begin{columns}[T,onlytextwidth]
@@ -752,7 +608,151 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 21: UNCERTAINTY (With Explanation)
+% SLIDE 16: ADVANCED MODELING (3-FIELD)
+% ==========================================
+\begin{frame}[t]{Advanced Modeling: The 3-Field Approach}
+    \begin{columns}[T,onlytextwidth]
+        \column{0.58\textwidth}
+        \textbf{Beyond Homogeneous Equilibrium:}
+        Standard models assume liquid and vapor move together. For BWR dryout, we need more physics.
+        
+        \vspace{1em}
+        \textbf{The 3 Fields:}
+        \begin{enumerate}
+            \item \textbf{Continuous Liquid:} The film on the wall.
+            \item \textbf{Entrained Liquid:} Droplets in the core.
+            \item \textbf{Vapor:} The gaseous core.
+        \end{enumerate}
+
+        \column{0.38\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.75]
+            \draw[thick] (0,0) -- (0,4);
+            \draw[thick] (3,0) -- (3,4);
+            \fill[HadronBlue!30] (0,0) rectangle (0.3,4);
+            \fill[HadronBlue!30] (2.7,0) rectangle (3,4);
+            \node at (1.5, 2) {\small Vapor Core};
+            \foreach \x in {1,1.5,2} \fill[HadronBlue] (\x, \x+0.5) circle (0.08);
+            \foreach \x in {1.2,1.8} \fill[HadronBlue] (\x, \x+1.5) circle (0.08);
+            \node[font=\tiny, align=center, fill=white] at (0.15, 0.5) {Film};
+            \node[font=\tiny, align=center, fill=white] at (1.5, 3.5) {Droplets};
+        \end{tikzpicture}
+    \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 17: 3-FIELD MASS CONSERVATION
+% ==========================================
+\begin{frame}[t]{3-Field Equations: Mass Conservation}
+    \small % Reduced text size
+    \textbf{Three separate mass balances per node:}
+    
+    \begin{block}{1. Vapor Mass}
+        \[ \frac{\partial (\alpha_v \rho_v)}{\partial t} + \nabla \cdot (\alpha_v \rho_v \vec{v}_v) = \Gamma_{vap} \]
+        {\tiny Vapor generation from evaporation.}
+    \end{block}
+    
+    \begin{block}{2. Liquid Film Mass}
+        \[ \frac{\partial (\alpha_f \rho_f)}{\partial t} + \nabla \cdot (\alpha_f \rho_f \vec{v}_f) = \textcolor{StatusGreen}{D} - \textcolor{StatusRed}{E} - \Gamma_{film} \]
+        {\tiny $\mathbf{D}$: Deposition of drops to film. $\mathbf{E}$: Entrainment of film to drops.}
+    \end{block}
+    
+    \begin{block}{3. Entrained Droplet Mass}
+        \[ \frac{\partial (\alpha_d \rho_d)}{\partial t} + \nabla \cdot (\alpha_d \rho_d \vec{v}_d) = \textcolor{StatusRed}{E} - \textcolor{StatusGreen}{D} - \Gamma_{drops} \]
+    \end{block}
+    
+    \vspace{0.2em}
+    \centering
+    \statusbadge{StatusYellow}{Dryout happens when Film Mass $\to$ 0.}
+\end{frame}
+
+% ==========================================
+% SLIDE 18: 3-FIELD MOMENTUM BALANCE
+% ==========================================
+\begin{frame}[t]{3-Field Equations: Momentum Balance}
+    \begin{columns}[T,onlytextwidth]
+        \column{0.6\textwidth}
+        \textbf{Momentum Complexity:}
+        We solve momentum for each field, allowing different velocities ($v_v \neq v_d \neq v_f$).
+        
+        \vspace{1em}
+        \begin{block}{Interfacial Drag}
+            The fields interact through drag forces:
+            \[ F_{i} = C_D \frac{1}{2} \rho (v_{rel}) |v_{rel}| A_{int} \]
+            \begin{itemize}
+                \item Vapor drags droplets up.
+                \item Vapor shears the film surface.
+            \end{itemize}
+        \end{block}
+
+        \column{0.35\textwidth}
+        \textbf{Operational Impact}
+        \vspace{0.5em}
+        
+        If vapor velocity is very high, it shears the film surface, increasing \textbf{Entrainment (E)}.
+        \vspace{1em}
+        
+        High Entrainment $\to$ Thinner Film $\to$ Earlier Dryout.
+    \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 19: 3-FIELD ENERGY BALANCE
+% ==========================================
+\begin{frame}[t]{3-Field Equations: Energy Balance}
+    \textbf{Where does the heat go?}
+    
+    \begin{block}{Film Energy Equation}
+        Heat from the rod enters the liquid film.
+        \begin{itemize}
+            \item If $T_{film} < T_{sat}$: Sensible heating.
+            \item If $T_{film} = T_{sat}$: Evaporation ($\Gamma_{film}$).
+        \end{itemize}
+    \end{block}
+    
+    \begin{block}{Vapor/Droplet Energy}
+        Typically, droplets are assumed to be at $T_{sat}$. 
+        Vapor can become \textbf{superheated} even if droplets exist (non-equilibrium), but in standard dryout analysis, we focus on the film depletion limit.
+    \end{block}
+    
+    \vspace{1em}
+    \centering
+    \statusbadge{StatusDark}{Critical Logic: Dryout = Integrated Film Depletion}
+\end{frame}
+
+% ==========================================
+% SLIDE 20: CLOSURE MODELS
+% ==========================================
+\begin{frame}[t]{Closure Models: The Entrainment/Deposition War}
+    The accuracy of a 3-field code (like COBRA-TF) depends entirely on these empirical models:
+    
+    \vspace{1em}
+    \begin{columns}[T,onlytextwidth]
+        \column{0.48\textwidth}
+        \begin{block}{Entrainment (E)}
+            \begin{itemize}
+                \item \textbf{Driver:} Vapor shear vs. Surface tension.
+                \item \textbf{Effect:} Rips liquid off the wall.
+                \item \textbf{Bad for margins.}
+            \end{itemize}
+        \end{block}
+
+        \column{0.48\textwidth}
+        \begin{block}{Deposition (D)}
+            \begin{itemize}
+                \item \textbf{Driver:} Turbulent diffusion of drops.
+                \item \textbf{Effect:} Returns liquid to the wall.
+                \item \textbf{Good for margins.}
+            \end{itemize}
+        \end{block}
+    \end{columns}
+    
+    \vspace{1em}
+    \textbf{Spacer Grids:} Modern spacers are designed to maximize \textbf{D} (Deposition) to replenish the film.
+\end{frame}
+
+% ==========================================
+% SLIDE 21: UNCERTAINTY CHALLENGE
 % ==========================================
 \begin{frame}[t]{The Uncertainty Challenge}
     \begin{columns}[T,onlytextwidth]
@@ -771,7 +771,7 @@
         \vspace{1em}
         \begin{tikzpicture}
             \node[fill=HadronLight, rounded corners=3pt, inner sep=5pt, text width=0.9\linewidth, font=\tiny] {
-                \textbf{Plot Meaning:} The solid blue line is the "Perfect" distribution. The dashed red line is the "Real World" distribution. Variances widen the bell curve, pushing the "tail" closer to the failure point (Limit), eating up margin.
+                \textbf{Plot:} The solid blue line is the "Perfect" distribution. The dashed red line is the "Real World" distribution. Variances widen the bell curve, pushing the "tail" closer to the failure point (Limit), eating up margin.
             };
         \end{tikzpicture}
 
@@ -791,7 +791,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 22: STATS METHOD
+% SLIDE 22: STATISTICAL METHODOLOGY
 % ==========================================
 \begin{frame}[t]{Statistical Methodology: RTDP vs. Monte Carlo}
     \begin{columns}[T,onlytextwidth]
@@ -806,14 +806,16 @@
         
         \begin{block}{Monte Carlo Sampling}
             \begin{itemize}
-                \item Run subchannel code 1000s of times.
+                \item Run subchannel code a number of times based on the desired confidence interval.
                 \item Randomly sample inputs from PDFs.
                 \item Determine true failure probability.
             \end{itemize}
         \end{block}
 
-        \column{0.45\textwidth}
+        \column{0.48\textwidth}
         \centering
+        % Top: Process Flow (TikZ) - Scaled down to fit
+        \scalebox{0.6}{
         \begin{tikzpicture}[node distance=1.0cm, font=\tiny, thick]
             \node[draw, rectangle, rounded corners] (inputs) {Input PDFs};
             \node[draw, rectangle, fill=HadronBlue!20, below=of inputs] (code) {Subchannel Code};
@@ -822,13 +824,21 @@
             \draw[-{Stealth}] (code) -- (output);
             \node[right=0.2cm of code, align=left, color=StatusDark] {Run $N$ times};
         \end{tikzpicture}
-        \vspace{1em}
-        \textbf{Target: 95/95 Confidence/Probability}
+        }
+        
+        \vspace{0.3em}
+        
+        % Bottom: Margin Definition Image (ADDED)
+        % Ensure filename is "margin_definition.png"
+        \includegraphics[width=0.85\linewidth, keepaspectratio]{media/margin_definition.png}
+        
+        \vspace{0.2em}
+        \tiny \textbf{Target: 95/95 Confidence/Probability}
     \end{columns}
 \end{frame}
 
 % ==========================================
-% SLIDE 23: WORKFLOW
+% SLIDE 23: OPERATIONAL RESPONSE WORKFLOW
 % ==========================================
 \begin{frame}[t]{Operational Response Workflow}
     \centering
@@ -841,8 +851,8 @@
         \draw[-{Stealth}] (step2) -- (step3);
         
         \node[below=0.2cm of step1, align=left, font=\tiny] {P, Flow, Power\\Axial Shape};
-        \node[below=0.2cm of step2, align=left, font=\tiny] {Run 3-Field Code\\Check Min Film Mass};
-        \node[below=0.2cm of step3, align=left, font=\tiny] {Margin < Limit?\\Adjust Flow/Power};
+        \node[below=0.2cm of step2, align=left, font=\tiny] {Run Subchannel Code\\Check Min DNBR};
+        \node[below=0.2cm of step3, align=left, font=\tiny] {Margin < Limit?\\Adjust Power, Rods, Borate};
     \end{tikzpicture}
 
     \vspace{1.5cm}
@@ -850,7 +860,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 24: MITIGATIONS
+% SLIDE 24: MITIGATION STRATEGIES
 % ==========================================
 \begin{frame}[t]{Mitigation Strategies}
     \begin{columns}[T,onlytextwidth]
@@ -873,7 +883,7 @@
 \end{frame}
 
 % ==========================================
-% SLIDE 25: WRAP UP
+% SLIDE 25: FINAL TAKEAWAYS
 % ==========================================
 \begin{frame}[t]{Final Takeaways}
     \begin{itemize}
@@ -919,3 +929,4 @@
 \end{frame}
 
 \end{document}
+
