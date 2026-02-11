@@ -1,0 +1,812 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{dolphin}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+
+% --------------------
+% Crisis-room styling
+% --------------------
+\definecolor{CrisisRed}{RGB}{176,0,32}
+\definecolor{CrisisOrange}{RGB}{255,111,0}
+\definecolor{CalmBlue}{RGB}{0,90,156}
+\definecolor{CrisisGray}{RGB}{35,35,35}
+\definecolor{CrisisGreen}{RGB}{0,140,70}
+
+\setbeamercolor{section in head/foot}{bg=CrisisGray,fg=white}
+\setbeamercolor{author in head/foot}{bg=CalmBlue,fg=white}
+
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamertemplate{headline}{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.6ex,dp=1.2ex,leftskip=1ex,rightskip=1ex]{section in head/foot}
+    \textbf{CRISIS ROOM BRIEF} \hfill \insertshorttitle
+  \end{beamercolorbox}
+}
+
+\setbeamertemplate{footline}{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.2ex,dp=1.0ex,leftskip=1ex,rightskip=1ex]{author in head/foot}
+    \insertshortauthor \hfill \insertframenumber{}/\inserttotalframenumber
+  \end{beamercolorbox}
+}
+
+\setbeamercolor{status green}{bg=CrisisGreen,fg=white}
+\setbeamercolor{status yellow}{bg=CrisisOrange,fg=black}
+\setbeamercolor{status red}{bg=CrisisRed,fg=white}
+
+\newcommand{\statusbox}[2]{%
+\begin{beamercolorbox}[wd=\linewidth,sep=0.9ex,rounded=true,shadow=true,center]{#1}
+\textbf{#2}
+\end{beamercolorbox}
+}
+
+\title[Boiling crisis + subchannel]{Boiling Crisis \& Subchannel Analysis\\\vspace{0.3em}\small Crisis Room Report (LWR edition)}
+\author[Lander]{Prepared for: Lander (Crisis Lead)}
+\date{\today}
+
+\begin{document}
+
+% -------- Slide 1 --------
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% -------- Slide 2 --------
+\begin{frame}[t]{Briefing board (25-slide sprint)}
+\begin{columns}[T,onlytextwidth]
+\column{0.62\textwidth}
+\begin{block}{What we are answering}
+\begin{itemize}
+  \item What is the boiling crisis, and how does it differ between PWR and BWR?
+  \item What do DNBR and CPR actually measure (and why operations cares)?
+  \item How subchannel analysis turns bundle geometry + power shapes into local margins.
+\end{itemize}
+\end{block}
+
+\begin{block}{Today\'s output}
+\begin{itemize}
+  \item Shared mental model + quick checklists.
+  \item A practical workflow you can run during transients and power maneuvers.
+\end{itemize}
+\end{block}
+
+\column{0.38\textwidth}
+\statusbox{status green}{STATUS: GREEN (learning mode)}
+\vspace{0.7ex}
+\statusbox{status yellow}{STATUS: YELLOW (margin shrinking)}
+\vspace{0.7ex}
+\statusbox{status red}{STATUS: RED (boiling crisis imminent)}
+\vspace{1.2ex}
+\end{columns}
+\end{frame}
+
+% -------- Slide 3 --------
+\begin{frame}[t]{Situation report: why the room gets loud}
+\begin{columns}[T,onlytextwidth]
+\column{0.58\textwidth}
+\begin{block}{The scary part (one sentence)}
+The boiling crisis is a sudden transition to a much worse heat-transfer regime, causing a rapid cladding temperature rise.
+\end{block}
+
+\begin{block}{What triggers panic}
+\begin{itemize}
+  \item Heat flux up (power, peaking factors, crud/roughness effects).
+  \item Coolant cooling ability down (flow, pressure, subcooling).
+  \item Local hydraulics change (spacers, mixing, void distribution).
+\end{itemize}
+\end{block}
+
+\column{0.42\textwidth}
+\begin{block}{In crisis-room language}
+\begin{itemize}
+  \item ``Wet wall'' \textrightarrow{} ``dry patch'' \textrightarrow{} ``vapor blanket''.
+  \item You do not get a gentle warning; you get a cliff.
+\end{itemize}
+\end{block}
+
+\begin{block}{What we protect}
+\begin{itemize}
+  \item Cladding temperature margin.
+  \item Fuel integrity (no runaway oxidation).
+  \item Long-term reliability (no local hot spots).
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 4 --------
+\begin{frame}[t]{CHF vs boiling crisis (and why both words exist)}
+\begin{columns}[T,onlytextwidth]
+\column{0.52\textwidth}
+\begin{block}{Definitions}
+\small
+\begin{itemize}
+  \item \textbf{CHF (critical heat flux)}: max heat flux where the wall can stay efficiently wetted.
+  \item \textbf{Boiling crisis}: the post-CHF heat-transfer deterioration (DNB or dryout).
+\end{itemize}
+\end{block}
+
+\begin{block}{Two LWR flavors}
+\small
+\begin{itemize}
+  \item \textbf{PWR: DNB} at low quality / subcooled conditions.
+  \item \textbf{BWR: dryout} at higher quality / annular flow (wall film gone).
+\end{itemize}
+\end{block}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=\linewidth]{A_comparative_diagram_in_the_field_of_nuclear_reac.png}
+\end{center}
+\vspace{-0.2em}
+\tiny Reference image used for conceptual alignment: nuclear-power.com (see URL printed on figure).
+\end{columns}
+\end{frame}
+
+% -------- Slide 5 --------
+\begin{frame}[t]{Regime map: the three knobs everyone secretly adjusts}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{The knobs}
+\begin{itemize}
+  \item \textbf{Pressure}: shifts saturation temperature, bubble dynamics, and CHF behavior.
+  \item \textbf{Mass flux}: controls liquid supply / rewetting and entrainment.
+  \item \textbf{Quality / subcooling}: sets where you are on the bubbly \textrightarrow{} slug \textrightarrow{} annular spectrum.
+\end{itemize}
+\end{block}
+
+\begin{block}{Rule-of-thumb cues}
+\begin{itemize}
+  \item PWR DNB: high pressure + low quality + intense nucleate boiling.
+  \item BWR dryout: annular flow + thin wall film + high void.
+\end{itemize}
+\end{block}
+
+\column{0.45\textwidth}
+\begin{block}{What you measure / estimate in practice}
+\begin{itemize}
+  \item Inlet temperature and pressure.
+  \item Core flow (or assembly flow split).
+  \item Power shape (axial + radial peaking).
+  \item Local void / quality (from models or instruments).
+\end{itemize}
+\end{block}
+\statusbox{status yellow}{Crisis heuristic: margin $\downarrow$ when power $\uparrow$ or flow $\downarrow$}
+\end{columns}
+\end{frame}
+
+% -------- Slide 6 --------
+\begin{frame}[t]{PWR deep dive: DNB (low-quality boiling crisis)}
+\begin{columns}[T,onlytextwidth]
+\column{0.52\textwidth}
+\begin{block}{Mechanism in plain words}
+\begin{itemize}
+  \item Bubbles crowd the wall; liquid can\'t rewet fast enough.
+  \item Local dry patches appear and persist.
+  \item Heat transfer shifts toward film boiling-like behavior \textrightarrow{} wall temperature spikes.
+\end{itemize}
+\end{block}
+
+\begin{block}{Where it lives}
+\begin{itemize}
+  \item Typically at lower quality (often subcooled boiling to low positive quality).
+  \item Sensitive to local peaking, mixing, and spacer effects.
+\end{itemize}
+\end{block}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=\linewidth,trim=0 0 360 0,clip]{Dryout-DNB-min.png}
+\end{center}
+\tiny Crop from Dryout-DNB figure (left panel: low-quality flow / DNB).
+\end{columns}
+\end{frame}
+
+% -------- Slide 7 --------
+\begin{frame}[t]{BWR deep dive: dryout (high-quality boiling crisis)}
+\begin{columns}[T,onlytextwidth]
+\column{0.52\textwidth}
+\begin{block}{Mechanism in plain words}
+\begin{itemize}
+  \item Flow becomes annular: vapor core with a thin liquid film on the wall.
+  \item The wall film evaporates or gets stripped (entrainment).
+  \item Once the film is gone: \textbf{dryout} \textrightarrow{} heat transfer degrades \textrightarrow{} cladding heats up.
+\end{itemize}
+\end{block}
+
+\begin{block}{Where it lives}
+\begin{itemize}
+  \item Upper bundle at higher quality / high void.
+  \item Sensitive to power shape, flow, and spacer-driven film behavior.
+\end{itemize}
+\end{block}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=\linewidth,trim=360 0 0 0,clip]{Dryout-DNB-min.png}
+\end{center}
+\tiny Crop from Dryout-DNB figure (right panel: high-quality flow / dryout).
+\end{columns}
+\end{frame}
+
+% -------- Slide 8 --------
+\begin{frame}[t]{One picture to rule them all: where DNB and dryout live}
+\begin{center}
+\includegraphics[height=0.78\textheight]{Dryout-DNB-min.png}
+\end{center}
+\vspace{-0.3em}
+\tiny Source: nuclear-power.com/wp-content/uploads/2016/06/Dryout-DNB-min.png (provided by user as reference).
+\end{frame}
+
+% -------- Slide 9 --------
+\begin{frame}[t]{The heat-transfer cliff (conceptual boiling curve)}
+\begin{columns}[T,onlytextwidth]
+\column{0.52\textwidth}
+\begin{block}{Why CHF matters}
+\begin{itemize}
+  \item Before CHF: nucleate boiling is a superpower (high heat-transfer coefficient).
+  \item At CHF: the wall can\'t stay reliably wetted.
+  \item After CHF: vapor insulation dominates \textrightarrow{} wall temperature rises fast.
+\end{itemize}
+\end{block}
+
+\statusbox{status red}{Key takeaway: small hydraulic changes can cause big temperature changes}
+
+\column{0.48\textwidth}
+\begin{center}
+\begin{tikzpicture}[x=0.85cm,y=0.85cm]
+  % Axes (kept compact so labels do not clip)
+  \draw[-{Stealth[length=2mm]}] (0,0) -- (6.2,0);
+  \draw[-{Stealth[length=2mm]}] (0,0) -- (0,4.6);
+
+  \node[below] at (3.1,0) {$\Delta T_{wall-sat}$ (superheat)};
+  \node[above] at (0,4.6) {$q''$};
+  \node[above right] at (0,4.6) {\scriptsize heat flux};
+
+  % Curve (stylized)
+  \draw[thick] (0.4,0.3) .. controls (1.6,0.9) and (2.4,1.5) .. (3.0,2.4)
+               .. controls (3.4,3.0) and (3.7,3.7) .. (4.0,4.05);
+  \draw[thick] (4.0,4.05) .. controls (4.3,3.2) and (4.7,2.4) .. (5.2,2.0)
+               .. controls (5.7,1.6) and (5.9,1.8) .. (6.1,2.1);
+
+  % CHF point
+  \fill (4.0,4.05) circle (2pt);
+  \draw[dashed] (4.0,0) -- (4.0,4.05);
+  \node[above right] at (4.0,4.05) {\textbf{CHF}};
+
+  % Regime labels
+  \node[align=center] at (2.0,1.05) {\scriptsize nucleate\\boiling};
+  \node[align=center] at (5.1,1.05) {\scriptsize transition\\film boiling};
+\end{tikzpicture}
+\end{center}
+\end{columns}
+\end{frame}
+
+% -------- Slide 10 --------
+\begin{frame}[t]{Margins: DNBR vs CPR (the dashboard numbers)}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{PWR: DNBR}
+\begin{itemize}
+  \item DNBR = (predicted CHF at local conditions) / (actual local heat flux).
+  \item DNBR > 1 means margin; smaller DNBR means closer to DNB.
+  \item Design/tech specs enforce a minimum DNBR with uncertainty included.
+\end{itemize}
+\end{block}
+
+\begin{block}{BWR: CPR}
+\begin{itemize}
+  \item CPR = (critical power) / (operating bundle power).
+  \item CPR > 1 means margin; lower CPR means closer to dryout.
+  \item Reported as bundle/assembly minimum, with statistical margin (MCPR).
+\end{itemize}
+\end{block}
+
+\column{0.45\textwidth}
+\statusbox{status yellow}{If DNBR or CPR trends down: stop debating and start checking inputs}
+\vspace{0.8ex}
+\begin{block}{Mini mnemonic}
+\begin{itemize}
+  \item DNB: ``rewet failure''.
+  \item Dryout: ``film gone''.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 11 --------
+\begin{frame}[t]{Crisis triggers: what pushes you toward the cliff}
+\begin{columns}[T,onlytextwidth]
+\column{0.58\textwidth}
+\begin{block}{Fast movers (minutes to seconds)}
+\begin{itemize}
+  \item Power ramps (especially with axial peaking).
+  \item Pump trip / flow coastdown.
+  \item Pressure changes (pressurizer events, void collapse/formation).
+  \item Inlet temperature increase (subcooling loss).
+\end{itemize}
+\end{block}
+
+\begin{block}{Slow burners (hours to cycles)}
+\begin{itemize}
+  \item Crud deposition and surface condition changes.
+  \item Spacer wear / mixing vane performance.
+  \item Fuel burnup effects and power redistribution.
+\end{itemize}
+\end{block}
+
+\column{0.42\textwidth}
+\begin{block}{Knobs you can turn}
+\begin{itemize}
+  \item Reduce power.
+  \item Increase core flow.
+  \item Restore pressure / subcooling.
+  \item Flatten power shape (control/boron strategies).
+\end{itemize}
+\end{block}
+\statusbox{status green}{Best time to act: when you still feel bored}
+\end{columns}
+\end{frame}
+
+% -------- Slide 12 --------
+\begin{frame}[t]{Subchannel analysis: the LWR bundle\'s microscope}
+\begin{columns}[T,onlytextwidth]
+\column{0.6\textwidth}
+\begin{block}{What it is}
+\begin{itemize}
+  \item A reduced-order thermal-hydraulics model of a fuel bundle.
+  \item Splits the bundle into many ``subchannels'' (flow passages) and axial nodes.
+  \item Solves for local flow, enthalpy, quality/void, and computes CHF margin locally.
+\end{itemize}
+\end{block}
+
+\begin{block}{Why it exists}
+\begin{itemize}
+  \item CHF/dryout is local: one pin, one span, one unlucky spot.
+  \item Full CFD for an entire core is not the operational tool.
+  \item Subchannel models capture key geometry, mixing, and power-shape effects efficiently.
+\end{itemize}
+\end{block}
+
+\column{0.4\textwidth}
+\statusbox{status yellow}{Think: ``bundle weather forecast'' with local microclimates}
+\vspace{0.8ex}
+\begin{block}{Outputs people actually use}
+\begin{itemize}
+  \item Minimum DNBR / MCPR.
+  \item Hot channel location.
+  \item Sensitivity to flow, power, inlet conditions.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 13 --------
+\begin{frame}[t]{Bundle geometry (subchannels, rods, and gaps)}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{Discretization idea}
+\begin{itemize}
+  \item Rods become heat sources; coolant passages become subchannels.
+  \item The ``gap'' between subchannels allows crossflow and turbulent mixing.
+  \item Spacer grids add pressure loss and mixing enhancement.
+\end{itemize}
+\end{block}
+
+\begin{block}{Key geometric quantities}
+\begin{itemize}
+  \item Flow area $A$, wetted perimeter $P_w$, hydraulic diameter $D_h = 4A/P_w$.
+  \item Subchannel-to-subchannel gap width and mixing length scales.
+\end{itemize}
+\end{block}
+
+\column{0.45\textwidth}
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+  % rods (3x3)
+  \foreach \x in {0,1.5,3} {
+    \foreach \y in {0,1.5,3} {
+      \draw[thick] (\x,\y) circle (0.45);
+    }
+  }
+  % annotate subchannel region
+  \node[align=center] at (0.75,0.75) {\small sub-\\channel};
+  \draw[-{Stealth[length=2mm]},thick] (1.0,0.9) -- (1.25,1.25);
+
+  % gap arrow
+  \draw[-{Stealth[length=2mm]},thick] (0.45,1.5) -- (1.05,1.5);
+  \node[above] at (0.75,1.5) {\small gap};
+\end{tikzpicture}
+\end{center}
+\end{columns}
+\end{frame}
+
+% -------- Slide 14 --------
+\begin{frame}[t]{Governing equations (subchannel flavor, not CFD)}
+\begin{columns}[T,onlytextwidth]
+\column{0.62\textwidth}
+\begin{block}{Per subchannel, per axial node (conceptually)}
+\begin{itemize}
+  \item \textbf{Mass}: axial flow change + crossflow = 0.
+  \item \textbf{Energy}: enthalpy rise from rod heat + mixing + phase change.
+  \item \textbf{Momentum}: pressure drop from friction, form loss (spacers), gravity, acceleration.
+\end{itemize}
+\end{block}
+
+\begin{block}{Two-phase closure is the whole game}
+\begin{itemize}
+  \item Void fraction model (drift-flux / correlations).
+  \item Two-phase friction multipliers.
+  \item Entrainment/deposition models (important for BWR dryout prediction).
+\end{itemize}
+\end{block}
+
+\column{0.38\textwidth}
+\statusbox{status yellow}{The math is simple; the closure is not.}
+\vspace{1.0ex}
+\begin{block}{Practical note}
+\begin{itemize}
+  \item Axial mesh too coarse \textrightarrow{} misses peaking and spacer effects.
+  \item Mixing too strong/weak \textrightarrow{} wrong hot-channel prediction.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 15 --------
+\begin{frame}[t]{Mixing \& crossflow: the secret sauce between channels}
+\begin{columns}[T,onlytextwidth]
+\column{0.6\textwidth}
+\begin{block}{Two distinct phenomena}
+\begin{itemize}
+  \item \textbf{Turbulent mixing}: net zero mass exchange; exchanges momentum/energy.
+  \item \textbf{Diversion crossflow}: net mass transfer due to pressure differences.
+\end{itemize}
+\end{block}
+
+\begin{block}{Why it matters for boiling crisis}
+\begin{itemize}
+  \item Mixing can cool the hot pin (good) or starve it of liquid (bad).
+  \item Spacer grids can locally reset the liquid film and delay dryout.
+  \item Uncertainty in mixing coefficients often dominates margin uncertainty.
+\end{itemize}
+\end{block}
+
+\column{0.4\textwidth}
+\begin{block}{Crisis-room questions}
+\begin{itemize}
+  \item Are we modeling spacer-enhanced mixing correctly?
+  \item Does the hot subchannel have a neighbor that can donate enthalpy margin?
+  \item Are we in a regime where entrainment matters (BWR upper bundle)?
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 16 --------
+\begin{frame}[t]{Spacer grids: pressure loss + mixing (and sometimes CHF benefit)}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{What spacers do}
+\begin{itemize}
+  \item Add form loss (higher pressure drop).
+  \item Increase turbulence and lateral mixing.
+  \item In BWRs, can help re-wet / thicken film downstream (design dependent).
+\end{itemize}
+\end{block}
+
+\begin{block}{Modeling levers}
+\begin{itemize}
+  \item Spacer loss coefficients (single-phase and two-phase).
+  \item Spacer mixing enhancement factors.
+  \item Local CHF/CPR multiplier models around spacer locations.
+\end{itemize}
+\end{block}
+
+\column{0.45\textwidth}
+\statusbox{status yellow}{Spacers can save you locally and hurt you globally (flow penalty).}
+\vspace{1.0ex}
+\begin{block}{Quick sanity check}
+\begin{itemize}
+  \item Do predicted pressure drops match test data?
+  \item Does the location of minimum margin align with spacer pattern intuition?
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 17 --------
+\begin{frame}[t]{How CHF/CPR gets predicted in subchannel practice}
+\begin{columns}[T,onlytextwidth]
+\column{0.62\textwidth}
+\begin{block}{Common approach}
+\begin{itemize}
+  \item Compute local thermal-hydraulic state: $p, G, h, x, \alpha$ (and sometimes film variables).
+  \item Evaluate a CHF / critical power correlation or lookup table.
+  \item Form margin ratio: DNBR or CPR.
+\end{itemize}
+\end{block}
+
+\begin{block}{Reality check}
+\begin{itemize}
+  \item Correlations are calibrated to specific geometries and databases.
+  \item ``Good agreement'' means ``within scatter'' (and scatter can be big).
+  \item Modern workflows fold in uncertainty and report statistical minimum margin.
+\end{itemize}
+\end{block}
+
+\column{0.38\textwidth}
+\begin{block}{In crisis mode, ask}
+\begin{itemize}
+  \item Is the correlation valid for our spacer design and pressure range?
+  \item Are we using the right local quality definition (equilibrium vs nonequilibrium)?
+  \item Are we double-counting grid CHF factors?
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 18 --------
+\begin{frame}[t]{Subchannel input checklist (aka: what breaks runs)}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{Boundary conditions}
+\begin{itemize}
+  \item Inlet pressure, inlet temperature (or enthalpy), inlet flow.
+  \item Core outlet pressure / pressure drop target.
+  \item For transients: time histories (ramps, coastdowns).
+\end{itemize}
+\end{block}
+
+\begin{block}{Power distribution}
+\begin{itemize}
+  \item Assembly radial peaking (pin-by-pin if available).
+  \item Axial shape (including top-peaked / bottom-peaked scenarios).
+  \item Engineering factors: channel factors, uncertainties.
+\end{itemize}
+\end{block}
+
+\column{0.45\textwidth}
+\begin{block}{Geometry \& models}
+\begin{itemize}
+  \item Rod diameter, pitch, guide tubes, mixing vanes.
+  \item Spacer grid elevations and loss coefficients.
+  \item Mixing / crossflow parameters.
+  \item CHF/CPR correlation selection.
+\end{itemize}
+\end{block}
+\statusbox{status yellow}{Crisis-room rule: if the input file is messy, the margin is fiction}
+\end{columns}
+\end{frame}
+
+% -------- Slide 19 --------
+\begin{frame}[t]{Subchannel output dashboard (what you stare at)}
+\begin{columns}[T,onlytextwidth]
+\column{0.58\textwidth}
+\begin{block}{Thermal-hydraulic fields (local)}
+\begin{itemize}
+  \item Enthalpy/temperature rise by axial node.
+  \item Quality/void distribution (and film indicators for BWR models).
+  \item Pressure drop breakdown (friction, form, elevation, acceleration).
+\end{itemize}
+\end{block}
+
+\begin{block}{Margin metrics}
+\begin{itemize}
+  \item Minimum DNBR or MCPR location (pin, subchannel, elevation).
+  \item Sensitivity: which knob moves margin the most.
+  \item ``Next limiting'' assembly/bundle (who is second-worst).
+\end{itemize}
+\end{block}
+
+\column{0.42\textwidth}
+\statusbox{status green}{Best practice: always report both the number and the location}
+\vspace{1ex}
+\begin{block}{Plot wish-list}
+\begin{itemize}
+  \item DNBR/CPR vs elevation.
+  \item Void/quality vs elevation.
+  \item Pin power map with hot spot marked.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 20 --------
+\begin{frame}[t]{Hot channel factors \& uncertainty (the adult supervision)}
+\begin{columns}[T,onlytextwidth]
+\column{0.6\textwidth}
+\begin{block}{Why margins are statistical}
+\begin{itemize}
+  \item Measurement uncertainty: flow, temperature, power.
+  \item Manufacturing tolerance: pitch, diameter, roughness.
+  \item Modeling uncertainty: mixing, void, CHF correlation scatter.
+\end{itemize}
+\end{block}
+
+\begin{block}{Typical workflow}
+\begin{itemize}
+  \item Apply hot-channel factors / engineering uncertainty factors.
+  \item Perform statistical combination (e.g., 95/95 style criteria in some contexts).
+  \item Enforce minimum DNBR/MCPR with margin.
+\end{itemize}
+\end{block}
+
+\column{0.4\textwidth}
+\statusbox{status yellow}{Crisis-room translation: do not trust a margin without its uncertainty story}
+\vspace{1ex}
+\begin{block}{Quick questions}
+\begin{itemize}
+  \item Which uncertainty term dominates today?
+  \item Did we change anything (chemistry, spacers, power shape) that invalidates old factors?
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 21 --------
+\begin{frame}[t]{Coupling: neutronics \textrightarrow{} TH \textrightarrow{} neutronics (feedback loop)}
+\begin{columns}[T,onlytextwidth]
+\column{0.6\textwidth}
+\begin{block}{Why boiling crisis is never ``just TH''}
+\begin{itemize}
+  \item Local temperature/void changes reactivity and power distribution.
+  \item Power redistribution changes local heat flux and boiling regime.
+  \item Transients can move the limiting location quickly.
+\end{itemize}
+\end{block}
+
+\begin{block}{Operational consequences}
+\begin{itemize}
+  \item Axial power shape control is a thermal-hydraulic safety tool.
+  \item Stability and oscillations (especially in BWRs) can modulate dryout risk.
+\end{itemize}
+\end{block}
+
+\column{0.4\textwidth}
+\begin{block}{Crisis-room mental model}
+\begin{itemize}
+  \item Treat margin as a coupled system variable.
+  \item Watch for ``hidden'' power shifts that move the hot spot.
+\end{itemize}
+\end{block}
+\statusbox{status yellow}{If you only look at total power, you will miss the trap.}
+\end{columns}
+\end{frame}
+
+% -------- Slide 22 --------
+\begin{frame}[t]{15-minute crisis loop (what the lead asks for)}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{Loop step 1: confirm state}
+\begin{itemize}
+  \item Current $p$, flow, inlet $T$ (or subcooling), core power.
+  \item Axial shape indicator (top-peaked? bottom-peaked?).
+  \item Any alarms: pump, pressurizer, stability signals.
+\end{itemize}
+\end{block}
+
+\begin{block}{Loop step 2: recompute margin}
+\begin{itemize}
+  \item Fast model / precomputed tables / subchannel run.
+  \item Identify min DNBR/MCPR and location.
+  \item Compare to tech spec limits with uncertainty.
+\end{itemize}
+\end{block}
+
+\column{0.45\textwidth}
+\begin{block}{Loop step 3: decide actions}
+\begin{itemize}
+  \item If margin falling: reduce power or increase flow now.
+  \item If uncertain: assume worst credible input and act conservatively.
+  \item Document: what changed, why, and what\'s next.
+\end{itemize}
+\end{block}
+\statusbox{status red}{Crisis-room rule: act on trends, not on hopes.}
+\end{columns}
+\end{frame}
+
+% -------- Slide 23 --------
+\begin{frame}[t]{Mitigations: how to get back to GREEN}
+\begin{columns}[T,onlytextwidth]
+\column{0.58\textwidth}
+\begin{block}{Operational levers (fast)}
+\begin{itemize}
+  \item Power reduction (immediate heat-flux relief).
+  \item Flow increase (more liquid supply and rewetting capability).
+  \item Restore subcooling/pressure (moves you away from the critical regime).
+\end{itemize}
+\end{block}
+
+\begin{block}{Engineering levers (slow, design-cycle)}
+\begin{itemize}
+  \item Spacer/mixing vane redesign.
+  \item Surface chemistry / crud mitigation.
+  \item Bundle design changes (pitch, rods, flow distribution devices).
+\end{itemize}
+\end{block}
+
+\column{0.42\textwidth}
+\statusbox{status green}{Most reliable: reduce power + increase flow (classic combo).}
+\vspace{1ex}
+\begin{block}{BWR-specific note}
+\begin{itemize}
+  \item Dryout margin is tightly linked to flow and power shape in upper bundle.
+  \item Stability management matters (avoid oscillatory excursions).
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 24 --------
+\begin{frame}[t]{Red-team checklist: how margin analysis goes wrong}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{Classic failure modes}
+\begin{itemize}
+  \item Units mismatch (kW/m$^2$ vs W/cm$^2$, MPa vs bar).
+  \item Wrong axial shape or wrong peaking factors.
+  \item Mixing tuned for a different spacer design.
+  \item Axial mesh too coarse around spacer locations.
+\end{itemize}
+\end{block}
+
+\begin{block}{Two-phase traps}
+\begin{itemize}
+  \item Equilibrium vs nonequilibrium quality assumptions.
+  \item Wrong void model for the regime.
+  \item Double-counting (or missing) spacer CHF multipliers.
+\end{itemize}
+\end{block}
+
+\column{0.45\textwidth}
+\statusbox{status red}{If the answer looks too good, interrogate the assumptions.}
+\vspace{1ex}
+\begin{block}{Crisis-room move}
+\begin{itemize}
+  \item Run a ``worst credible'' case: high power, low flow, warm inlet.
+  \item See if limiting location is physically plausible.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% -------- Slide 25 --------
+\begin{frame}[t]{Wrap-up: your one-page mental model (and where to read next)}
+\begin{columns}[T,onlytextwidth]
+\column{0.6\textwidth}
+\begin{block}{If you remember only this}
+\begin{itemize}
+  \item CHF is the threshold; the boiling crisis is the regime change (heat transfer collapse).
+  \item PWR limit is typically DNB (low quality); BWR limit is typically dryout (high quality).
+  \item Subchannel analysis is how we predict the \emph{local} state and \emph{local} margin.
+\end{itemize}
+\end{block}
+
+\begin{block}{Action items (for a real team)}
+\begin{itemize}
+  \item Maintain a validated input deck + versioned peaking factors.
+  \item Keep a fast ``15-min margin'' workflow.
+\end{itemize}
+\end{block}
+
+\column{0.4\textwidth}
+\statusbox{status green}{END STATE TARGET: GREEN, boring, and well-documented}
+\vspace{1ex}
+\begin{block}{Pointers (non-exhaustive)}
+\begin{itemize}
+  \item Groeneveld CHF lookup tables (for context and history).
+  \item EPRI/PWR CHF correlations and DNBR methodology.
+  \item BWR critical power correlations and MCPR methodology.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\end{document}
