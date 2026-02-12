@@ -80,7 +80,6 @@
 
 % --- FOOTER TEMPLATE ---
 \setbeamertemplate{footline}{
-    \leavevmode%
     \hbox{%
     \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
         \hspace*{2ex} \textcolor{gray}{\insertshortauthor}
@@ -198,7 +197,7 @@
 
         \column{0.38\textwidth}
         \begin{block}{Critical Terminology}
-            Nucleate Boiling $\to$ Film Dryout $\to$ Wall Superheat.
+            Nucleate Boiling $\to$ Film Dryout $\to$ Wall Superheat.\\
             \vspace{0.5em}
             \emph{The transition is non-linear and cliff-like.}
         \end{block}
@@ -206,9 +205,9 @@
         \vspace{1em}
         \textbf{Safety Targets:}
         \begin{itemize} \small
+            \item Regulatory Compliance (GDC).
             \item Cladding Integrity (PCT Limits).
             \item Fuel Rod Geometry (No ballooning).
-            \item Regulatory Compliance (GDC).
         \end{itemize}
     \end{columns}
 \end{frame}
@@ -332,7 +331,7 @@
 % ==========================================
 % SLIDE 8: THE CLIFF
 % ==========================================
-\begin{frame}[t]{The Heat Transfer Cliff}
+\begin{frame}[t]{The Heat Transfer Cliff - The Nukiyama Curve}
     \begin{columns}[T,onlytextwidth]
         \column{0.50\textwidth}
         \textbf{Why CHF Matters:}
@@ -346,20 +345,46 @@
         \statusbadge{StatusRed}{CRITICAL \\ Small hydraulic change = Large $\Delta T$}
 
         \column{0.45\textwidth}
-        \centering
-        \begin{tikzpicture}[x=0.85cm,y=0.85cm]
-          \draw[-{Stealth}, thick, color=gray] (0,0) -- (6.2,0) node[below] {$\Delta T_{sat}$};
-          \draw[-{Stealth}, thick, color=gray] (0,0) -- (0,4.6) node[left] {$q''$};
-          \draw[very thick, HadronBlue] (0.4,0.3) .. controls (1.6,0.9) and (2.4,1.5) .. (3.0,2.4)
-                       .. controls (3.4,3.0) and (3.7,3.7) .. (4.0,4.05);
-          \draw[very thick, StatusRed] (4.0,4.05) .. controls (4.3,3.2) and (4.7,2.4) .. (5.2,2.0)
-                       .. controls (5.7,1.6) and (5.9,1.8) .. (6.1,2.1);
-          \fill[HadronDark] (4.0,4.05) circle (3pt);
-          \draw[dashed] (4.0,0) -- (4.0,4.05);
-          \node[above] at (4.0,4.1) {\textbf{CHF}};
-          \node[align=center, font=\tiny] at (2.0,1.2) {Nucleate\\Boiling};
-          \node[align=center, font=\tiny, color=StatusRed] at (5.5,1.2) {Film\\Boiling};
-        \end{tikzpicture}
+	\centering
+        % Using the extracted Nukiyama curve image
+        \includegraphics[width=\linewidth, keepaspectratio]{media/extracted_nukiyama_curve.png}
+%\begin{tikzpicture}[x=0.85cm,y=0.85cm]
+%          % Axes
+%          \draw[-{Stealth}, thick, color=gray] (0,0) -- (6.2,0) node[below, xshift=-2.5cm] {$\Delta T_{sat} = T_{wall}-T_{sat}$};
+%          \draw[-{Stealth}, thick, color=gray] (0,0) -- (0,4.6) node[left] {$q''$};
+%
+%          % Origin Label (0) - Added here
+%          \node[color=gray, font=\footnotesize, anchor=north east] at (0,0) {0};
+%
+%          % Curve
+%          \draw[very thick, HadronBlue] (0.4,0.3) .. controls (1.6,0.9) and (2.4,1.5) .. (3.0,2.4)
+%                       .. controls (3.4,3.0) and (3.7,3.7) .. (4.0,4.05);
+%          \draw[very thick, StatusRed] (4.0,4.05) .. controls (4.3,3.2) and (4.7,2.4) .. (5.2,2.0)
+%                       .. controls (5.7,1.6) and (5.9,1.8) .. (6.1,2.1);
+%
+%          % CHF Point
+%          \fill[HadronDark] (4.0,4.05) circle (3pt);
+%          \draw[dashed] (4.0,0) -- (4.0,4.05);
+%          \node[above] at (4.0,4.1) {\textbf{CHF}};
+%
+%          % Labels
+%  \node[align=center, font=\tiny, color=HadronBlue] at (3.0,1.2) {Nucleate\\Boiling};
+%          \node[align=center, font=\tiny, color=StatusRed] at (5.0,1.2) {Film\\Boiling};
+%        \end{tikzpicture}
+%
+%        \begin{tikzpicture}[x=0.85cm,y=0.85cm]
+% \draw[-{Stealth}, thick, color=gray] (0,0) -- (6.2,0) node[below, xshift=-2.0cm] {$\Delta T_{sat} = (T_{wall} - T_{sat})$};
+%          \draw[-{Stealth}, thick, color=gray] (0,0) -- (0,4.6) node[left] {$q''$};
+%          \draw[very thick, HadronBlue] (0.4,0.3) .. controls (1.6,0.9) and (2.4,1.5) .. (3.0,2.4)
+%                       .. controls (3.4,3.0) and (3.7,3.7) .. (4.0,4.05);
+%          \draw[very thick, StatusRed] (4.0,4.05) .. controls (4.3,3.2) and (4.7,2.4) .. (5.2,2.0)
+%                       .. controls (5.7,1.6) and (5.9,1.8) .. (6.1,2.1);
+%          \fill[HadronDark] (4.0,4.05) circle (3pt);
+%          \draw[dashed] (4.0,0) -- (4.0,4.05);
+%          \node[above] at (4.0,4.1) {\textbf{CHF}};
+%          \node[align=center, font=\tiny] at (2.0,1.2) {Nucleate\\Boiling};
+%          \node[align=center, font=\tiny, color=StatusRed] at (5.5,1.2) {Film\\Boiling};
+%        \end{tikzpicture}
     \end{columns}
 \end{frame}
 
@@ -399,7 +424,7 @@
     \begin{columns}[T,onlytextwidth]
         \column{0.55\textwidth}
         \textbf{The Resolution Requirement:}
-        Core and assembly-level thermal-hydraulics "smear" properties, masking the local extremes where DNB actually occurs. To accurately model safety limits, the resolution must be refined.
+        Core and assembly-level thermal-hydraulics "smear" properties, masking the local extremes where DNB actually occurs.
         
         \vspace{1em}
         \textbf{Nodalization Hierarchy:}
@@ -888,14 +913,14 @@
 \begin{frame}[t]{Final Takeaways}
     \begin{itemize}
         \item \textbf{Physics:} It's about liquid contact. DNB (bubbles blocking) vs Dryout (film exhaustion).
-        \item \textbf{Modeling:} 3-Field models are essential for high-quality BWR analysis to track the film.
+        \item \textbf{Modeling:} Subchannel models are essential for PWR analysis to track  hydraulic behavior locally.
         \item \textbf{Safety:} Margins are statistical. We operate far from the cliff to account for uncertainty.
     \end{itemize}
     
-    \vspace{2em}
-    \centering
-    \includegraphics[width=3cm]{media/hadron_logo.png} \\
-    {\tiny \textbf{Hadron Energy Operations}}
+%    \vspace{2em}
+%    \centering
+%    \includegraphics[width=3cm]{media/hadron_logo.png} \\
+%    {\tiny \textbf{Hadron Energy Operations}}
 \end{frame}
 
 % ==========================================
@@ -929,4 +954,3 @@
 \end{frame}
 
 \end{document}
-
